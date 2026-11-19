@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rightsify Music RL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#f5f6f5; --paper:#ffffff; --ink:#1c2023; --ink2:#4d545b; --muted:#80868b; --line:#e3e5e3; --axis:#c9cdca;
+  --accent:#2f5d62; --tint:#e8efee; --warn:#9a6b12;
+  --m-opus:#2a78d6; --m-gpt:#eb6834; --m-gemini:#1baf7a; --m-kimi:#eda100;
+  --o-pass:#184f95; --o-partial:#3987e5; --o-low:#86b6ef; --o-error:#c9cdca;
+  --sans:"Instrument Sans","Helvetica Neue",Arial,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121517; --paper:#1a1e21; --ink:#e6e8ea; --ink2:#b7bdc3; --muted:#868d94; --line:#2a2f33; --axis:#3a4045;
+  --accent:#86c0c4; --tint:#1f2e2d; --warn:#e0b45c;
+  --m-opus:#3987e5; --m-gpt:#d95926; --m-gemini:#199e70; --m-kimi:#c98500;
+  --o-pass:#86b6ef; --o-partial:#2a78d6; --o-low:#184f95; --o-error:#3a4045; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121517; --paper:#1a1e21; --ink:#e6e8ea; --ink2:#b7bdc3; --muted:#868d94; --line:#2a2f33; --axis:#3a4045;
+  --accent:#86c0c4; --tint:#1f2e2d; --warn:#e0b45c;
+  --m-opus:#3987e5; --m-gpt:#d95926; --m-gemini:#199e70; --m-kimi:#c98500;
+  --o-pass:#86b6ef; --o-partial:#2a78d6; --o-low:#184f95; --o-error:#3a4045; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.55 var(--sans)}
+.page{max-width:1040px;margin:0 auto;padding-block:40px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:40px}
+h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(28px,4.4vw,40px);font-weight:700;line-height:1.1}
+h2{font-size:21px;font-weight:600}
+h3{font-size:15px;font-weight:600}
+p{margin:0;max-width:70ch}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.lede{font-size:18px;color:var(--ink2);max-width:62ch}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+header{display:grid;gap:14px}
+section{display:grid;gap:14px;min-width:0}
+.sec-head{display:grid;gap:4px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 20px;min-width:0}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block;flex:none}
+.ex{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:860px){.ex{grid-template-columns:minmax(0,1fr)}}
+.excard{display:grid;gap:10px;align-content:start}
+.excard .tag{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
+.excard h3{font-size:16px}
+.excard p{font-size:13.5px;color:var(--ink2)}
+.sc{display:grid;grid-template-columns:minmax(0,1fr) 90px 42px;gap:8px;align-items:center;font-size:12.5px}
+.sc .nm{display:flex;align-items:center;gap:6px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip{font:600 10.5px var(--mono);padding:2px 6px;border-radius:4px;border:1px solid var(--line);color:var(--muted);text-align:center}
+.chip.ok{color:var(--paper);background:var(--ink);border-color:var(--ink)}
+.method{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.method{grid-template-columns:minmax(0,1fr)}}
+.method ul{margin:0;padding-left:18px;display:grid;gap:8px;font-size:13.5px;color:var(--ink2)}
+.method ul b{color:var(--ink);font-weight:600}
+footer{font-size:12.5px;color:var(--muted);display:grid;gap:4px}
+.pitch{display:grid;gap:22px;padding-bottom:36px;border-bottom:1px solid var(--line)}
+.pitch h1{font-size:clamp(32px,5.2vw,48px);line-height:1.04;letter-spacing:-.02em;max-width:18ch}
+.pitch .lede{font-size:19px;color:var(--ink2);max-width:56ch}
+.offers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.offers{grid-template-columns:minmax(0,1fr)}}
+.offer{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:grid;gap:8px;align-content:start;min-width:0}
+.offer .count{font:600 34px/1 var(--sans);letter-spacing:-.02em}
+.offer .count small{font:500 12px var(--mono);color:var(--muted);letter-spacing:0;margin-left:6px}
+.offer h3{font-size:17px}
+.offer p{font-size:14px;color:var(--ink2)}
+.offer .best{border-top:1px solid var(--line);padding-top:8px;font:500 12.5px/1.5 var(--mono);color:var(--muted)}
+.offer .best b{color:var(--ink);font-weight:600}
+.proof{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.proof div{padding:12px 14px 12px 0;font-size:13.5px;color:var(--ink2);min-width:0}
+.proof div+div{padding-left:14px;border-left:1px solid var(--line)}
+.proof b{display:block;color:var(--ink);font-weight:600;font-size:14px}
+@media (max-width:760px){.proof{grid-template-columns:repeat(2,minmax(0,1fr))}.proof div:nth-child(3){padding-left:0;border-left:0}.proof div:nth-child(n+3){border-top:1px solid var(--line)}}
+.ask{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;justify-content:space-between}
+.ask b{font-size:18px;font-weight:600}
+.ask a{font:500 13px var(--mono);color:var(--accent);text-decoration:none}
+.ask a:hover{text-decoration:underline}
+.prow{display:grid;grid-template-columns:minmax(120px,170px) minmax(0,1fr) 44px;gap:12px;align-items:center;padding:5px 0;font-size:13.5px}
+.prow .nm{display:flex;align-items:center;gap:7px;font-weight:600;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ptrack{height:14px;background:var(--line);border-radius:4px;position:relative;overflow:hidden}
+.ptrack i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.pv{font:600 13px var(--mono);text-align:right}
+.pbig .prow{padding:8px 0}
+.pbig .ptrack{height:22px}
+.pbig .pv{font-size:16px}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.offers{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:980px){.offers{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.offers{grid-template-columns:minmax(0,1fr)}}
+.offer .count{font-size:30px}
+@media (max-width:860px){.three{grid-template-columns:minmax(0,1fr)}}
+.mini2{display:grid;gap:4px;align-content:start}
+.mini2 p{font-size:13px;color:var(--ink2);margin:0 0 8px}
+.mini2 .prow{grid-template-columns:minmax(0,130px) minmax(0,1fr) 40px;font-size:12.5px}
+.ex{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sc{grid-template-columns:minmax(0,1fr) auto}
+.lede b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+
+<div class="page" id="top">
+  <section class="pitch" id="offer">
+    <div class="eyebrow">Rightsify</div>
+    <h1>RL environments for music and sound</h1>
+    <p class="lede"><b>3,812 tasks</b> across three environments. Agents produce, score and design audio in real tools. A checker re-renders what they leave behind and grades it.</p>
+    <div class="offers"><div class="offer"><div class="count">1,359<small>tasks</small></div><h3>DAW</h3><p>Long-horizon music production in our DAW: arrange, compose, mix, repair real multitracks.</p><div class="best">Best model completes <b>52%</b> · Claude Opus 5.5</div></div><div class="offer"><div class="count">REAPER</div><h3>The DAW tasks in REAPER</h3><p>The same work in a commercial DAW: through its scripting API, or with mouse and keyboard only.</p><div class="best">Best model completes <b>42%</b> by script · <b>31%</b> on screen</div></div><div class="offer"><div class="count">828<small>tasks</small></div><h3>Picture to sound</h3><p>Watch a clip, make the right sounds in code, fix a soundtrack, cut a real catalog song to picture.</p><div class="best">Best model completes <b>34%</b> · GPT-6.1 Sol</div></div><div class="offer"><div class="count">1,625<small>tasks</small></div><h3>AudioCode</h3><p>Write code that makes a sound or a track from a written brief; the checker runs it and measures the audio.</p><div class="best">Best model completes <b>58%</b> · Claude Opus 5.5</div></div></div>
+    <div class="proof">
+      <div><b>Graded on the result</b>The checker renders and measures the audio, never the agent's claims.</div>
+      <div><b>Cheat-tested</b>Every task: the reference answer passes, doing nothing fails, scripted wrong answers fail.</div>
+      <div><b>Hard</b>37% of tasks were completed by no frontier model.</div>
+      <div><b>Real music</b>Code writes the notes; our virtual instruments, built from the Rightsify catalog, play them.</div>
+    </div>
+    <div class="ask"><a href="#results">Model results below ↓</a></div>
+  </section>
+
+  <header id="results">
+    <div class="eyebrow">Results</div>
+    <h2 style="font-size:clamp(24px,3.6vw,32px);font-weight:700;line-height:1.12">Model results, November 2026</h2>
+    <p class="lede">Four frontier models. One number throughout: the share of tasks a model fully completed.</p>
+  </header>
+
+  <section id="leaderboard">
+    <div class="sec-head"><h2>Tasks fully completed</h2>
+      <p class="muted small">DAW, picture to sound and AudioCode together. A task counts only when the model clears every required check; partial work does not count.</p></div>
+    <div class="card pbig"><div class="prow"><span class="nm"><i class="sw" style="background:var(--m-opus)"></i>Claude Opus 5.5</span><span class="ptrack"><i style="width:46%;background:var(--m-opus)"></i></span><span class="pv">46%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-gpt)"></i>GPT-6.1 Sol</span><span class="ptrack"><i style="width:41%;background:var(--m-gpt)"></i></span><span class="pv">41%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-gemini)"></i>Gemini 4 Argon</span><span class="ptrack"><i style="width:31%;background:var(--m-gemini)"></i></span><span class="pv">31%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-kimi)"></i>Kimi K3.1 Pro</span><span class="ptrack"><i style="width:23%;background:var(--m-kimi)"></i></span><span class="pv">23%</span></div></div>
+  </section>
+
+  <section id="envs">
+    <div class="sec-head"><h2>By environment</h2></div>
+    <div class="three"><div class="card mini2"><h3>DAW</h3><p>Long-horizon music production in our DAW: arrange, compose, mix, repair real multitracks.</p><div class="prow"><span class="nm"><i class="sw" style="background:var(--m-opus)"></i>Claude Opus 5.5</span><span class="ptrack"><i style="width:52%;background:var(--m-opus)"></i></span><span class="pv">52%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-gpt)"></i>GPT-6.1 Sol</span><span class="ptrack"><i style="width:42%;background:var(--m-gpt)"></i></span><span class="pv">42%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-gemini)"></i>Gemini 4 Argon</span><span class="ptrack"><i style="width:40%;background:var(--m-gemini)"></i></span><span class="pv">40%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-kimi)"></i>Kimi K3.1 Pro</span><span class="ptrack"><i style="width:22%;background:var(--m-kimi)"></i></span><span class="pv">22%</span></div></div><div class="card mini2"><h3>REAPER, by script</h3><p>The same DAW tasks, done in REAPER through its scripting API.</p><div class="prow"><span class="nm"><i class="sw" style="background:var(--m-gemini)"></i>Gemini 4 Argon</span><span class="ptrack"><i style="width:42%;background:var(--m-gemini)"></i></span><span class="pv">42%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-opus)"></i>Claude Opus 5.5</span><span class="ptrack"><i style="width:38%;background:var(--m-opus)"></i></span><span class="pv">38%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-gpt)"></i>GPT-6.1 Sol</span><span class="ptrack"><i style="width:36%;background:var(--m-gpt)"></i></span><span class="pv">36%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-kimi)"></i>Kimi K3.1 Pro</span><span class="ptrack"><i style="width:24%;background:var(--m-kimi)"></i></span><span class="pv">24%</span></div></div><div class="card mini2"><h3>REAPER, on screen</h3><p>DAW tasks done in REAPER with mouse and keyboard only.</p><div class="prow"><span class="nm"><i class="sw" style="background:var(--m-gpt)"></i>GPT-6.1 Sol</span><span class="ptrack"><i style="width:31%;background:var(--m-gpt)"></i></span><span class="pv">31%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-gemini)"></i>Gemini 4 Argon</span><span class="ptrack"><i style="width:31%;background:var(--m-gemini)"></i></span><span class="pv">31%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-opus)"></i>Claude Opus 5.5</span><span class="ptrack"><i style="width:12%;background:var(--m-opus)"></i></span><span class="pv">12%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-kimi)"></i>Kimi K3.1 Pro</span><span class="ptrack"><i style="width:12%;background:var(--m-kimi)"></i></span><span class="pv">12%</span></div></div><div class="card mini2"><h3>Picture to sound</h3><p>Watch a clip, make the right sounds in code, fix a soundtrack, cut a real catalog song to picture.</p><div class="prow"><span class="nm"><i class="sw" style="background:var(--m-gpt)"></i>GPT-6.1 Sol</span><span class="ptrack"><i style="width:34%;background:var(--m-gpt)"></i></span><span class="pv">34%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-gemini)"></i>Gemini 4 Argon</span><span class="ptrack"><i style="width:34%;background:var(--m-gemini)"></i></span><span class="pv">34%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-opus)"></i>Claude Opus 5.5</span><span class="ptrack"><i style="width:28%;background:var(--m-opus)"></i></span><span class="pv">28%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-kimi)"></i>Kimi K3.1 Pro</span><span class="ptrack"><i style="width:10%;background:var(--m-kimi)"></i></span><span class="pv">10%</span></div></div><div class="card mini2"><h3>AudioCode</h3><p>Write code that makes a sound or a track from a written brief; the checker runs it and measures the audio.</p><div class="prow"><span class="nm"><i class="sw" style="background:var(--m-opus)"></i>Claude Opus 5.5</span><span class="ptrack"><i style="width:58%;background:var(--m-opus)"></i></span><span class="pv">58%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-gpt)"></i>GPT-6.1 Sol</span><span class="ptrack"><i style="width:48%;background:var(--m-gpt)"></i></span><span class="pv">48%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-kimi)"></i>Kimi K3.1 Pro</span><span class="ptrack"><i style="width:36%;background:var(--m-kimi)"></i></span><span class="pv">36%</span></div>
+<div class="prow"><span class="nm"><i class="sw" style="background:var(--m-gemini)"></i>Gemini 4 Argon</span><span class="ptrack"><i style="width:18%;background:var(--m-gemini)"></i></span><span class="pv">18%</span></div></div></div>
+  </section>
+
+  <section id="examples">
+    <div class="sec-head"><h2>Four example tasks</h2><p class="muted small">What the work looks like, and which models completed it.</p></div>
+    <div class="ex"><div class="card excard"><span class="tag">DAW</span><h3>Drum-and-bass from a recorded break</h3><p>Make a drum-and-bass track at 170-176 BPM from an imported recorded break: chop and re-sequence the break, write a reese bass, and switch to half-time in bars 17 to 24. The checker reads the saved session and re-renders it.</p><div style="display:grid;gap:6px"><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-opus)"></i>Claude Opus 5.5</span><span class="chip ok">PASS</span></div><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-gpt)"></i>GPT-6.1 Sol</span><span class="chip">NOT PASSED</span></div><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-gemini)"></i>Gemini 4 Argon</span><span class="chip ok">PASS</span></div><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-kimi)"></i>Kimi K3.1 Pro</span><span class="chip">NOT PASSED</span></div></div></div><div class="card excard"><span class="tag">REAPER, on screen</span><h3>Horror cue: clusters, aleatoric strings, stingers</h3><p>In REAPER, with mouse and keyboard only: score a horror scene with string clusters, an unmeasured aleatoric string texture, and a loud stinger exactly on each marker. The checker reads the saved project.</p><div style="display:grid;gap:6px"><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-opus)"></i>Claude Opus 5.5</span><span class="chip">NOT PASSED</span></div><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-gpt)"></i>GPT-6.1 Sol</span><span class="chip ok">PASS</span></div><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-gemini)"></i>Gemini 4 Argon</span><span class="chip ok">PASS</span></div><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-kimi)"></i>Kimi K3.1 Pro</span><span class="chip">NOT PASSED</span></div></div></div><div class="card excard"><span class="tag">Picture to sound</span><h3>Edit a finished Deep House song (stems) to the clip: drop on the moment, ending on the last frame</h3><p>A finished deep house catalog song arrives as stems. Edit it like a music editor so the drop lands on the third hard blow of a pile driver, the one after the long wait, the song&#x27;s own ending finishes on the last frame, and every cut sits on a bar line.</p><div style="display:grid;gap:6px"><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-opus)"></i>Claude Opus 5.5</span><span class="chip">NOT PASSED</span></div><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-gpt)"></i>GPT-6.1 Sol</span><span class="chip ok">PASS</span></div><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-gemini)"></i>Gemini 4 Argon</span><span class="chip ok">PASS</span></div><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-kimi)"></i>Kimi K3.1 Pro</span><span class="chip">NOT PASSED</span></div></div></div><div class="card excard"><span class="tag">AudioCode</span><h3>Make a saxophone in code</h3><p>Write numpy code that plays a saxophone, from the words of the brief alone: no recording to copy. The checker plays the code on contrasting passages and grades it against real saxophones and against other instruments.</p><div style="display:grid;gap:6px"><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-opus)"></i>Claude Opus 5.5</span><span class="chip ok">PASS</span></div><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-gpt)"></i>GPT-6.1 Sol</span><span class="chip">NOT PASSED</span></div><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-gemini)"></i>Gemini 4 Argon</span><span class="chip">NOT PASSED</span></div><div class="sc"><span class="nm"><i class="sw" style="background:var(--m-kimi)"></i>Kimi K3.1 Pro</span><span class="chip">NOT PASSED</span></div></div></div></div>
+  </section>
+
+  <section id="method">
+    <div class="sec-head"><h2>How this was run</h2></div>
+    <div class="method">
+      <div class="card"><ul>
+        <li><b>Graded on the final state.</b> The checker opens the saved session or runs the submitted program, renders the audio itself and measures it. Hidden answer keys never enter the agent's sandbox.</li>
+        <li><b>Same harness for every model:</b> same tools, same budgets. An error or timeout counts as not completed.</li>
+        <li><b>Music is made, not retrieved.</b> Code writes the notes; they are played by our virtual instruments (sampler instruments built from the Rightsify catalog) or by code the agent writes.</li>
+      </ul></div>
+      <div class="card"><ul>
+        <li><b>Every task passed a self-check first:</b> the reference answer passes, doing nothing fails, and scripted wrong answers fail.</li>
+        <li><b>Cheats caught in the run.</b> In an early REAPER run, a model reached outside its project and read an answer file. REAPER now runs sandboxed and those attempts were rerun.</li>
+        <li><b>Models:</b> Claude Opus 5.5 (Anthropic), GPT-6.1 Sol (OpenAI), Gemini 4 Argon (Google), Kimi K3.1 Pro (Moonshot AI).</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <footer><span>Rightsify. Results from November 2026. A task is completed when it clears its own pass line.</span></footer>
+</div>
+
+</body>
+</html>
